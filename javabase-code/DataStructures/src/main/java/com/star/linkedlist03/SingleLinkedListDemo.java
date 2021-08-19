@@ -38,18 +38,87 @@ public class SingleLinkedListDemo {
 
         //删除一个节点
         singleLinkedList.del(1);
-        singleLinkedList.del(2);
+        singleLinkedList.del(4);
         System.out.println("删除后的链表情况~~~");
         singleLinkedList.list();
+
+        //测试一下，求链表中有效节点的个数
+        System.out.println("有效的节点个数:"+getLength(singleLinkedList.getHead()) + "个");
+
+        //测试一下，看是否得到了倒数第K个节点
+//        HeroNode res = findLastIndexNode(singleLinkedList.getHead(),1);
+        HeroNode res = findLastIndexNode(singleLinkedList.getHead(),3);
+        System.out.println("res="+res);
+
+
+
+
+
+
         //显示一把
 //        singleLinkedList.list();
     }
+
+    //题二：查找单链表中的倒数第k个节点【新浪】
+    //思路
+    //1.编写一个方法，接受head节点，同时接受一个index
+    //2.index 表示是倒数第index个节点
+    //3.先把链表从头到尾遍历，得到链表的总的长度 getLength
+    //4.得到size后，从链表的第一个开始遍历(size-index) 个，就可以得到
+    //5.如果找到了，则返回该节点，否则返回null
+    public static HeroNode findLastIndexNode(HeroNode head,int index){
+        //判断如果链表为空，返回null
+        if(head.next == null){
+            return null;//没有找到
+        }
+        //第一次遍历得到链表的长度(节点个数)
+        int size = getLength(head);
+        //第二次遍历 size-index 位置，就是我们倒数的第k个节点
+        //先做一个index的校验
+        if(index <= 0 || index >size){
+            return null;
+        }
+        //定义一个辅助变量,for 循环定位到倒数的index
+        HeroNode cur = head.next;
+        for (int i = 0; i < size - index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+
+    //题一：获取到单链表的节点的个数(如果是带头节点的链表，需求不统计头节点)
+    /**
+     * @param head 链表的头节点
+     * @return 返回的就是有效节点的个数
+     */
+    public static int getLength(HeroNode head){
+        if(head.next == null) {//空链表
+            return 0;
+        }
+        int length = 0;
+        //定义一个辅助的变量,这里我们没有统计头节点
+        HeroNode cur = head.next;
+        while (cur != null){
+            length++;
+            cur = cur.next;//遍历
+        }
+        return length;
+    }
+
+
+
 }
 
 //定义SingleLinkedList 管理我们的英雄
 class SingleLinkedList{
     //先初始化一个头节点，头节点不要动,不存放具体的数据
     private HeroNode head = new HeroNode(0,"","");
+
+    //返回头节点
+    public HeroNode getHead() {
+        return head;
+    }
+
     //添加节点到单向链表
     //思路：当不考虑编号顺序时
     //1.找到当前链表的最后节点
