@@ -1,5 +1,9 @@
 package com.star.stack04;
-
+/**
+ * @author 枯灯少年
+ * @DATE 2021/08/30 12:59:00
+ * @DESCRIPTION 栈实现中缀表达式计算器
+ */
 public class Calculator {
     public static void main(String[] args) {
         //根据前面的思路：完成表达式的运算
