@@ -3,14 +3,24 @@ package com.star.stack04;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
 /**
  * @author 枯灯少年
- * @Description 逆波兰表达式计算器
- * @Date 202/08/31 12:35
+ * @Description 中缀表达式转后缀表达式
+ * @Date 202/09/01 12:27
  */
-public class PolandNotation {
+public class PolandNotation02 {
     public static void main(String[] args) {
+
+        //完成将一个中缀表达式转后缀表达式的功能
+        //说明
+        //1. 1+((2+3)x4)-5 => 转成 1 2 3 + 4 x + 5 -
+        //2.因为直接对str进行操作，不方便，因此先将 "1+((2+3)x4)-5 =>中缀的表达式对应的List"
+        // 即 "1+((2+3)x4)-5 => ArrayList [1,+,(,(,2,+,3),*,4,),-,5]"
+        String expression = "1+((2+3)x4)-5";
+        List<String> strings = toInfixExpressionList(expression);
+        System.out.println(strings); // [1, +, (, (, 2, +, 3, ), x, 4, ), -, 5]
+
+
         //先定义逆波兰表达式
         //(3+4)*5-6 => 3 4 + 5 x 6 -
         //测试：(30+4)*10-6  => 30 4 + 10 x 6 -
@@ -19,7 +29,7 @@ public class PolandNotation {
 
 //        String suffixExpression  = "3 4 + 5 x 6 -";
 //        String suffixExpression  = "30 4 + 10 x 6 -";
-        String suffixExpression  = "4 5 x 8 - 60 + 8 2 / +";
+        /*String suffixExpression  = "4 5 x 8 - 60 + 8 2 / +";
 
         //思路
         //1.先将 "3 4 + 5 x 6 -" =》 放到ArrayList中
@@ -29,8 +39,36 @@ public class PolandNotation {
         System.out.println("list="+list);
 
         int res = calculate(list);
-        System.out.println("计算的结果是=" + res);
+        System.out.println("计算的结果是=" + res);*/
+
+
     }
+
+    //将中缀表达式转成对应的List
+    //s = "1+((2+3)x4)-5";
+    public static List<String> toInfixExpressionList(String s){
+        //定义一个List，存放中缀表达式 对应的内容
+        List<String> ls = new ArrayList<>();
+        int i = 0;//这是一个指针，用于遍历中缀表达式字符串
+        String str;//对多位数的拼接
+        char c;//每遍历到一个字符，就放入到c
+        do{
+            //如果c是一个非数字，我需要加入到ls
+            if((c=s.charAt(i)) < 48 || (c=s.charAt(i))>57){
+                ls.add(""+c);
+                i++;//i需要后移
+            }else {// 如果是一个数，需要考虑多位数
+                str = "";//先将str置成"" '0'[48]->'9'[57]
+                while (i<s.length() && (c=s.charAt(i)) >=48 && (c=s.charAt(i)) <= 57){
+                    str += c;//拼接
+                    i++;
+                }
+                ls.add(str);
+            }
+        }while (i < s.length());
+        return ls;
+    }
+
 
     //将一个逆波兰表达式，依次将数据和运算符 放入到ArrayList中
     public static List<String> getListString(String suffixExpression){
@@ -86,3 +124,4 @@ public class PolandNotation {
     }
 
 }
+
